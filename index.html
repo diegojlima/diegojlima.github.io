@@ -127,12 +127,24 @@ button:active {
 
 <button onclick="spinWheel()">RODA A RODA!!!</button>
 
+<div id="result" style="display: none; text-align: center; margin-top: 30px;">
+    <p>GOSTOU?</p>
+    <p>SEGUE LÁ:</p>
+    <a href="https://www.instagram.com/d_jlima/" target="_blank">https://www.instagram.com/d_jlima/</a>
+</div>
+
 <script>
   function spinWheel() {
     var wheel = document.getElementById('wheel');
     var deg = Math.floor(5000 + Math.random() * 5000);
     wheel.style.transform = 'rotate(' + deg + 'deg)';
-  }
+
+    // Aguarde 5 segundos para que a roleta termine de girar
+    setTimeout(function() {
+        document.getElementById('result').style.display = 'block';
+    }, 5000); // Deve ser igual ao tempo de transição da roleta
+}
+
 </script>
 
 </body>
