@@ -3,103 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roleta do Amor</title>
+<title>Sorteio Aleatório</title>
 <style>
-    .wheel {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        border: 16px solid transparent;
-        border-top-color: red; /* Red segment */
-        border-right-color: blue; /* Blue segment */
-        border-bottom-color: yellow; /* Yellow segment */
-        border-left-color: green; /* Green segment */
-        position: relative;
-        margin: 100px auto;
-        transition: transform 4s cubic-bezier(0, 0.99, 0.44, 0.99);
-    }
-    .wheel:before {
-        content: '';
-        position: absolute;
-        z-index: 100;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 160px;
-        height: 160px;
-        background: #FFF;
-        border-radius: 50%;
-    }
-    .pointer {
-        width: 20px;
-        height: 100px;
-        background: red;
-        position: absolute;
-        top: -40px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 99;
-    }
-    .labels {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 200px;
-        height: 200px;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-    }
-    .labels div {
-        position: absolute;
-        /* ...continuando do último ponto do código... */
-        width: 100%;
+    html, body {
         height: 100%;
+        margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        transform-origin: 50%;
+        background: #333;
     }
-    .labels div:nth-child(1) { /* BEIJO */
-        transform: rotate(45deg);
-    }
-    .labels div:nth-child(2) { /* ABRAÇO */
-        transform: rotate(135deg);
-    }
-    .labels div:nth-child(3) { /* CELINHO */
-        transform: rotate(225deg);
-    }
-    .labels div:nth-child(4) { /* OUTRO... */
-        transform: rotate(315deg);
+    .quadro {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 5em;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.5s ease-out; /* Transição suave */
     }
 </style>
 </head>
 <body>
 
-<div class="wheel" id="wheel">
-    <div class="labels">
-        <div>BEIJO</div>
-        <div>ABRAÇO</div>
-        <div>CELINHO</div>
-        <div>OUTRO...</div>
-    </div>
-</div>
-<div class="pointer"></div>
-
-<button onclick="spin()">Girar Roleta</button>
+<div id="beijo" class="quadro" style="background: red;">BEIJO</div>
+<div id="abraco" class="quadro" style="background: blue;">ABRAÇO</div>
+<div id="selinho" class="quadro" style="background: yellow;">CELINHO</div>
+<div id="outro" class="quadro" style="background: green;">OUTRO...</div>
 
 <script>
-    function spin() {
-        var wheel = document.getElementById('wheel');
-        var deg = Math.floor(5000 + Math.random() * 5000); // Generate a large random number
-        wheel.style.transition = 'transform 4s cubic-bezier(0, 0.99, 0.44, 0.99)'; // Set the transition for smoothness
-        wheel.style.transform = `rotate(${deg}deg)`; // Rotate the wheel
-        // Reset for next spin
-        setTimeout(function() {
-            wheel.style.transition = 'none';
-            var actualDeg = deg % 360;
-            wheel.style.transform = `rotate(${actualDeg}deg)`;
-        }, 4000); // This has to be the same as the transition time
+    const quadros = document.querySelectorAll('.quadro');
+    let active = 0;
+    let startTime = Date.now();
+    let duration = 8000; // Duração total do sorteio em milissegundos
+    let lastSwitchTime = Date.now();
+
+    function showRandomQuadro() {
+        quadros.forEach(quadro => quadro.style.opacity = 0); // Esconde todos os quadros
+        active = Math.floor(Math.random() * quadros.length); // Escolhe um quadro aleatório
+        quadros[active].style.opacity = 1; // Mostra o quadro escolhido
     }
+
+    function update() {
+        const now = Date.now();
+        const elapsedTime = now - startTime;
+        const sinceLastSwitch = now - lastSwitchTime;
+
+        // Ajusta a curva de desaceleração para ser mais suave no começo
+        const interval = Math.pow(elapsedTime / duration, 4) * 1000 + 200;
+
+        if (sinceLastSwitch >= interval) {
+            lastSwitchTime = now;
+            showRandomQuadro();
+        }
+
+        if (elapsedTime < duration) {
+            requestAnimationFrame(update); // Continua o loop até o tempo acabar
+        }
+    }
+
+    update(); // Inicia o sorteio
 </script>
 
 </body>
