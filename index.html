@@ -1,1 +1,35 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEIJO</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: black;
+    }
+
+    @keyframes changeColor {
+        0%   {color: red;}
+        25%  {color: yellow;}
+        50%  {color: blue;}
+        75%  {color: green;}
+        100% {color: purple;}
+    }
+
+    .beijo {
+        font-size: 5em;
+        font-weight: bold;
+        animation: changeColor 2s infinite;
+    }
+</style>
+</head>
+<body>
+<div class="beijo">BEIJO</div>
+</body>
+</html>
