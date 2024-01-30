@@ -82,6 +82,33 @@
     100% { color: red; }
   }
 
+  /* Estilos para o botão */
+button {
+    display: block; /* Exibe o botão como um bloco */
+    margin: 20px auto; /* Centraliza horizontalmente com margem automática */
+    padding: 15px 30px; /* Adiciona preenchimento para aumentar o tamanho */
+    font-size: 1.5em; /* Aumenta o tamanho da fonte */
+    background-color: #ff4500; /* Cor de fundo chamativa */
+    color: white; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+    border-radius: 5px; /* Borda arredondada */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito 3D */
+    transition: all 0.3s ease; /* Transição suave para efeitos de hover e clique */
+}
+
+/* Efeito hover para o botão */
+button:hover {
+    background-color: #ff6347; /* Cor mais clara quando o mouse está sobre o botão */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra maior para efeito de elevação */
+}
+
+/* Efeito ativo para o botão */
+button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra menor para efeito de pressionado */
+    transform: translateY(2px); /* Desloca um pouco para baixo para simular o pressionamento */
+}
+
 </style>
 </head>
 <body>
@@ -93,8 +120,8 @@
   <div id="wheel" class="wheel">
     <div class="segment section1">BEIJO...</div>
     <div class="segment section2">ABRAÇO...</div>
-    <div class="segment section3">CELINHO...</div>
-    <div class="segment section4">OUTRO...</div>
+    <div class="segment section3">BEIJO...</div>
+    <div class="segment section4">ABRAÇO...</div>
   </div>
 </div>
 
