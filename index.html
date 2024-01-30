@@ -3,33 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BEIJO</title>
+<title>Roleta do Amor</title>
 <style>
-    body, html {
-        height: 100%;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: black;
+    .wheel {
+        width: 200px;
+        height: 200px;
+        border: 10px solid #000;
+        border-radius: 50%;
+        position: relative;
+        margin: 100px auto;
     }
-
-    @keyframes changeColor {
-        0%   {color: red;}
-        25%  {color: yellow;}
-        50%  {color: blue;}
-        75%  {color: green;}
-        100% {color: purple;}
+    .wheel div {
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        overflow: hidden;
+        border: 2px solid #fff;
     }
-
-    .beijo {
-        font-size: 5em;
-        font-weight: bold;
-        animation: changeColor 2s infinite;
+    .wheel div:after {
+        content: "";
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        width: 200%;
+        height: 200%;
+        transform: translate(-50%, -50%);
+    }
+    .wheel .section1:after {
+        content: "BEIJO";
+    }
+    .wheel .section2:after {
+        content: "ABRAÇO";
+        transform: rotate(90deg) translate(-50%, -50%);
+    }
+    .wheel .section3:after {
+        content: "CELINHO";
+        transform: rotate(180deg) translate(-50%, -50%);
+    }
+    .wheel .section4:after {
+        content: "OUTRO...";
+        transform: rotate(270deg) translate(-50%, -50%);
+    }
+    .pointer {
+        width: 20px;
+        height: 100px;
+        background: red;
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 </style>
 </head>
 <body>
-<div class="beijo">BEIJO</div>
+
+<div class="wheel" id="wheel">
+    <div class="section1"></div>
+    <div class="section2"></div>
+    <div class="section3"></div>
+    <div class="section4"></div>
+</div>
+<div class="pointer"></div>
+
+<button onclick="spin()">Girar Roleta</button>
+
+<script>
+    function spin() {
+        var wheel = document.getElementById('wheel');
+        var deg = Math.floor(5000 + Math.random() * 5000); // Generate a large random number
+        wheel.style.transition = 'all 10s ease-out'; // Set the transition for smoothness
+        wheel.style.transform = `rotate(${deg}deg)`; // Rotate the wheel
+        // Reset for next spin
+        setTimeout(function() {
+            wheel.style.transition = 'none';
+            var actualDeg = deg % 360;
+            wheel.style.transform = `rotate(${actualDeg}deg)`;
+        }, 10000); // This has to be the same as the transition time
+    }
+</script>
+
 </body>
 </html>
