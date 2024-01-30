@@ -3,69 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sorteio Aleatório</title>
+<title>Roleta da Sorte</title>
 <style>
-    html, body {
-        height: 100%;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #333;
-    }
-    .quadro {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 5em;
-        color: white;
-        opacity: 0;
-        transition: opacity 0.5s ease-out; /* Transição suave */
-    }
+  .wheel-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    margin: 50px auto;
+  }
+
+  .wheel {
+    width: 100%;
+    height: 100%;
+    transition: transform 5s ease-out;
+    transform-style: preserve-3d;
+  }
+
+  .segment {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #000;
+    border-radius: 50%;
+    clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 0.5em; 
+    font-size: 1.0rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .pointer {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    width: 10px;
+    background-color: #ff0000;
+  }
+
+  .section1 { background-color: #FFD700; transform: rotate(45deg); }
+  .section2 { background-color: #FF8C00; transform: rotate(135deg); }
+  .section3 { background-color: #FF6347; transform: rotate(225deg); }
+  .section4 { background-color: #FF4500; transform: rotate(315deg); }
+
+  .prize {
+    text-align: center;
+    font-size: 2em; /* Ajuste o tamanho conforme necessário */
+    color: red;
+    animation: blinkingText 1.5s infinite, colorChange 3s infinite;
+    position: absolute; /* Para alinhar com a roleta */
+    top: -50px; /* Ajuste conforme necessário */
+    width: 100%; 
+    z-index: 10;
+  }
+
+  /* Animação para piscar o texto */
+  @keyframes blinkingText {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* Animação para mudar a cor do texto */
+  @keyframes colorChange {
+    0% { color: red; }
+    25% { color: blue; }
+    50% { color: green; }
+    75% { color: yellow; }
+    100% { color: red; }
+  }
+
 </style>
 </head>
 <body>
 
-<div id="beijo" class="quadro" style="background: red;">BEIJO</div>
-<div id="abraco" class="quadro" style="background: blue;">ABRAÇO</div>
-<div id="selinho" class="quadro" style="background: yellow;">CELINHO</div>
-<div id="outro" class="quadro" style="background: green;">OUTRO...</div>
+<div class="wheel-container">
+<div class="prize">PRÊMIO</div>
+
+  <div class="pointer"></div>
+  <div id="wheel" class="wheel">
+    <div class="segment section1">BEIJO...</div>
+    <div class="segment section2">ABRAÇO...</div>
+    <div class="segment section3">CELINHO...</div>
+    <div class="segment section4">OUTRO...</div>
+  </div>
+</div>
+
+<button onclick="spinWheel()">RETIRAR PREMIO!!!</button>
 
 <script>
-    const quadros = document.querySelectorAll('.quadro');
-    let active = 0;
-    let startTime = Date.now();
-    let duration = 8000; // Duração total do sorteio em milissegundos
-    let lastSwitchTime = Date.now();
-
-    function showRandomQuadro() {
-        quadros.forEach(quadro => quadro.style.opacity = 0); // Esconde todos os quadros
-        active = Math.floor(Math.random() * quadros.length); // Escolhe um quadro aleatório
-        quadros[active].style.opacity = 1; // Mostra o quadro escolhido
-    }
-
-    function update() {
-        const now = Date.now();
-        const elapsedTime = now - startTime;
-        const sinceLastSwitch = now - lastSwitchTime;
-
-        // Ajusta a curva de desaceleração para ser mais suave no começo
-        const interval = Math.pow(elapsedTime / duration, 4) * 1000 + 200;
-
-        if (sinceLastSwitch >= interval) {
-            lastSwitchTime = now;
-            showRandomQuadro();
-        }
-
-        if (elapsedTime < duration) {
-            requestAnimationFrame(update); // Continua o loop até o tempo acabar
-        }
-    }
-
-    update(); // Inicia o sorteio
+  function spinWheel() {
+    var wheel = document.getElementById('wheel');
+    var deg = Math.floor(5000 + Math.random() * 5000);
+    wheel.style.transform = 'rotate(' + deg + 'deg)';
+  }
 </script>
 
 </body>
